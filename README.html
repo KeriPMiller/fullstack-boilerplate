@@ -16,13 +16,13 @@
 <li><a href="#redux">Redux</a></li>
 <li><a href="#react-redux">React-Redux</a></li>
 <li><a href="#webpack">Webpack</a></li>
-<li><a href="#thunk">Thunk</a></li>
+<li><a href="#react-thunk">React-Thunk</a></li>
 </ul>
 <h2>OVERVIEW</h2>
 <h3>WHAT THIS IS</h3>
-<p>[an attempt at] A concise, easy-to-read reference to get your projects up and running as quickly as possible. All the &quot;setup&quot; code you need will be found here.</p>
+<p>[an attempt at] A concise, easy-to-read reference to get your projects up and running as quickly as possible. All the <strong>setup</strong> code you need will be found here.</p>
 <h3>WHAT THIS ISN'T</h3>
-<p>This is NOT meant to be a “copy-paste and go” sort of reference, but rather a quick “reminder” sheet. You will still have to know what this code does and adapt it to your own needs.</p>
+<p>This is NOT meant to be a “copy-paste and go” sort of reference, nor is it meant to be a replacement for documentation. The purpose of this is to help you set up your packages correctly--not to configure them to your needs. You will still need to know what these lines of code do.</p>
 <h3>HOW TO EDIT</h3>
 <p><a href="https://github.com/mjthor86/fullstack-boilerplate#fork-destination-box">Fork this repo</a> and <a href="https://help.github.com/articles/creating-a-pull-request/">make a pull request</a>! This document was written in <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown</a>, and the Gulp task to build the HTML is included (<a href="https://code.visualstudio.com/docs/languages/markdown">VSC instructions here</a>).</p>
 <p>It isn't <em>required</em> to build the HTML for your pull requests, but please at least write them in Markdown!</p>
@@ -93,9 +93,9 @@ module.exports = router;
 </code></pre>
 <h3>Setup</h3>
 <pre><code class="language-javascript">const db = new Sequelize('postgres://localhost:5432/DB-NAME-HERE', {
-  logging: false,
-  native: true // omit this line if using pg-hstore
-}
+    logging: false,
+    native: true // omit this line if using pg-hstore
+  }
 );
 </code></pre>
 <h2>Socket.IO</h2>
@@ -131,38 +131,13 @@ socket.on('connect', function () {
 // **Remember: socket refers to one individual socket
 //             io refers to every socket
 </code></pre>
-<h3>Quick reference for methods below:</h3>
-<pre><code class="language-javascript">socket.emit('message', &quot;this is a test&quot;); //sending to sender-client only
-
-socket.broadcast.emit('message', &quot;this is a test&quot;); //sending to all clients except sender
-
-socket.broadcast.to('game').emit('message', 'nice game'); //sending to all clients in 'game' room(channel) except sender
-
-socket.to('game').emit('message', 'enjoy the game'); //sending to sender client, only if they are in 'game' room(channel)
-
-socket.broadcast.to(socketid).emit('message', 'for your eyes only'); //sending to individual socketid
-
-io.emit('message', &quot;this is a test&quot;); //sending to all clients, include sender
-
-io.in('game').emit('message', 'cool game'); //sending to all clients in 'game' room(channel), include sender
-
-io.of('myNamespace').emit('message', 'gg'); //sending to all clients in namespace 'myNamespace', include sender
-
-socket.emit(); //send to all connected clients
-
-socket.broadcast.emit(); //send to all connected clients except the one that sent the message
-
-socket.on(); //event listener, can be called on client to execute on server
-
-io.sockets.socket(); //for emitting to specific clients
-io.sockets.emit(); //send to all connected clients (same as socket.emit)
-io.sockets.on() ; //initial connection from a client.
-</code></pre>
 <h2>React</h2>
 <h3>Tom’s Super Important Laws</h3>
-<p>State must ALWAYS be initialized with the appropriate data type.
-Dumb components should be as dumb as possible, they should only calculate the view and nothing more.
-All asynchronous behavior (such as AJAX) and side effects should go into a thunk.</p>
+<ol>
+<li>State must ALWAYS be initialized with the appropriate data type.</li>
+<li>Dumb components should be as dumb as possible, they should only calculate the view and nothing more.</li>
+<li>All asynchronous behavior (such as AJAX) and side effects should go into a thunk.</li>
+</ol>
 <h3>NPM Packages</h3>
 <pre><code>npm install --save react react-router-dom
 </code></pre>
@@ -171,7 +146,7 @@ All asynchronous behavior (such as AJAX) and side effects should go into a thunk
 import { HashRouter as Router, Route, Link } from 'react-router-dom';
 </code></pre>
 <h3>Creating a Smart Component and Using React Router</h3>
-<pre><code class="language-javascript">export default class ViewPets extends React.Component {
+<pre><code class="language-javascript">export default class Component extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -190,104 +165,51 @@ import { HashRouter as Router, Route, Link } from 'react-router-dom';
   componentDidMount() {
     this.setState({ view: this.props.match.params.view })
   }
-
-  render() {
-    let animals = catsData.concat(dogsData);
-    if(this.state.view === 'cats' {
-      animals = catsData;
-    }
-
-    return (
-      &lt;div&gt;
-        &lt;h1&gt;Pets&lt;/h1&gt;
-        &lt;AnimalList animals={animals} /&gt;
-      &lt;/div&gt;
-    )
-  }
 }
-</code></pre>
-<h3>Creating a Dumb Component</h3>
-<pre><code class="language-javascript">const AnimalList = ({ animals }) =&gt; {
-  return (
-    &lt;div className=&quot;gallery&quot;&gt;
-      { animals.map(animal =&gt; {
-        return &lt;AnimalCard key={animal.id} animal={animal} /&gt;;
-      })}
-    &lt;/div&gt;
-  )
-}
-</code></pre>
-<h3>Component Lifecycle Methods</h3>
-<pre><code class="language-javascript">/* Mounting */
-constructor(props) {} // Called before a component is mounted.
-
-componentWillMount() {} // Called immediately before mounting occurs.
-
-render() {} // Renders using returned JSX
-
-componentDidMount() {} // Called immediately after mounting.
-
-/* Updating */
-componentWillReceiveProps(nextProps) {} // Invoked before a mounted component gets new props.
-
-shouldComponentUpdate(nextProps, nextState) {} // Invoked before rendering when new props or state are received.
-
-componentWillUpdate(nextProps, nextState) {} // Invoked immediately before rendering after new props are received.
-
-componentDidUpdate(prevProps, prevState) {} // Invoked immediately after updating occurs, but not called on initial render.
-
-/* Unmounting */
-componentWillUnmount() {} // Invoked immediately before a component is unmounted or destroyed.
-
-/* Error Handling */
-componentDidCatch(error, info) {} // Catches errors anywhere in child component tree.
 </code></pre>
 <h3>Using React Router</h3>
 <pre><code class="language-javascript">// Inside a Component
 render() {
   return (
     &lt;Router&gt;
-      &lt;div className=&quot;col-xs-10&quot;&gt;
-        &lt;Route exact path=&quot;/&quot; component={AllAlbums} /&gt;
-        &lt;Route path=&quot;/albums&quot; component={AllAlbums} /&gt;
+      &lt;div&gt;
+        &lt;Route exact path=&quot;/&quot; component={Component} /&gt;
+        &lt;Route path=&quot;/path&quot; component={Component} /&gt;
       &lt;/div&gt;
     &lt;/Router&gt;
   );
 }
-</code></pre>
-<h3>Moar Code</h3>
-<pre><code class="language-javascript">
 </code></pre>
 <h2>Redux</h2>
 <h3>NPM Packages</h3>
 <pre><code>npm install --save ***
 </code></pre>
 <h3>Dependencies</h3>
-<pre><code class="language-javascript">// In store.js
+<pre><code class="language-javascript">// in store.js or wherever store is defined
 import { createStore } from 'redux';
 </code></pre>
 <h3>Define the Initial State</h3>
 <pre><code class="language-javascript">const initialState = {
-  counter: 0,
+  value: [], // always initialize state with correct value type
 };
 </code></pre>
 <h3>Define Action Types</h3>
-<pre><code class="language-javascript">const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
+<pre><code class="language-javascript">const ACTION_TYPE = 'ACTION_TYPE';
 </code></pre>
 <h3>Define Action Creator</h3>
-<pre><code class="language-javascript">export function incrementCounter(interval) {
+<pre><code class="language-javascript">export function actionCreator(value) {
   return {
-    type: INCREMENT_COUNTER,
-    interval
+    type: ACTION_TYPE,
+    value
   }
 }
 </code></pre>
 <h3>Define Reducer</h3>
-<pre><code class="language-javascript">function reducer(prevState=initialState, action) {
+<pre><code class="language-javascript">function reducer(prevState = initialState, action) {
   switch(action.type) {
-    case INCREMENT_COUNTER:
-      let newState = Object.assign({}, prevState);
-      newState.counter += action.interval;
+    case ACTION_TYPE:
+      let newState = Object.assign({}, prevState); // shallow copy
+      newState.value = action.value;
       return newState;
     default:
       return prevState;
@@ -324,7 +246,36 @@ import store from './store'; // will depend on where your store is defined
 <pre><code class="language-javascript">import { connect } from 'react-redux';
 </code></pre>
 <h3>Setup (connected component)</h3>
-<pre><code class="language-javascript">/* code here */
+<pre><code class="language-javascript">// map current state to props
+const mapStateToProps = state =&gt; {
+  return {
+    name: state.name
+  };
+};
+
+// map change/submit handlers (dispatches) to props
+const mapDispatchToProps = dispatch =&gt; {
+  return {
+    handleChange(event) {
+      dispatch(updateName(event.target.value));
+    }
+  };
+};
+
+// access state and dispatch methods via props
+const Component = props =&gt; {
+  const handleChange = props.handleChange;
+  const state = props.state;
+
+  return (
+    &lt;div&gt;
+    &lt;/div&gt;
+  );
+};
+
+// export connected version of component
+const Container = connect(mapStateToProps, mapDispatchToProps)(NameEntry);
+export default Container;
 </code></pre>
 <h2>Webpack</h2>
 <h3>Webpack.config.js</h3>
@@ -381,37 +332,32 @@ module.exports = {
   }
 };
 </code></pre>
-<h2>Thunk</h2>
+<h2>React-Thunk</h2>
 <h3>NPM Packages</h3>
 <pre><code>npm install --save redux-thunk
 </code></pre>
-
 <h3>Dependencies</h3>
-<pre><code>
-import axios from 'axios';
+<pre><code class="language-javascript">import axios from 'axios';
 import thunkMiddleware from 'redux-thunk';
 </code></pre>
-
 <h3>GET Thunk</h3>
-<pre><code>export function fetchMessages () {
+<pre><code class="language-javascript">export function fetchMessages () {
     return function thunk (dispatch) {
         return axios.get('/api/messages')
-        .then(res => res.data)
-        .then(messages => {
+        .then(res =&gt; res.data)
+        .then(messages =&gt; {
             const action = getMessages(messages);
             dispatch(action);
         });
     }
 }
 </code></pre>
-
 <h3>POST Thunk</h3>
-<pre><code>
-export function postMessage (message) {
+<pre><code class="language-javascript">export function postMessage (message) {
     return function thunk (dispatch) {
         return axios.post('/api/messages', message)
-        .then(res => res.data)
-        .then(newMessage => {
+        .then(res =&gt; res.data)
+        .then(newMessage =&gt; {
             const action = getMessage(newMessage);
             dispatch(action);
             socket.emit('new-message', newMessage);

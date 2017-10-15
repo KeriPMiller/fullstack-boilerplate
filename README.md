@@ -13,17 +13,17 @@
 - [Redux](#redux)
 - [React-Redux](#react-redux)
 - [Webpack](#webpack)
-- [Thunk](#thunk)
+- [React-Thunk](#react-thunk)
 
 ## OVERVIEW
 
 ### WHAT THIS IS
 
-[an attempt at] A concise, easy-to-read reference to get your projects up and running as quickly as possible. All the "setup" code you need will be found here.
+[an attempt at] A concise, easy-to-read reference to get your projects up and running as quickly as possible. All the **setup** code you need will be found here.
 
 ### WHAT THIS ISN'T
 
-This is NOT meant to be a “copy-paste and go” sort of reference, but rather a quick “reminder” sheet. You will still have to know what this code does and adapt it to your own needs.
+This is NOT meant to be a “copy-paste and go” sort of reference, nor is it meant to be a replacement for documentation. The purpose of this is to help you set up your packages correctly--not to configure them to your needs. You will still need to know what these lines of code do.
 
 ### HOW TO EDIT
 
@@ -119,9 +119,9 @@ const Sequelize = require('sequelize');
 
 ```javascript
 const db = new Sequelize('postgres://localhost:5432/DB-NAME-HERE', {
-  logging: false,
-  native: true // omit this line if using pg-hstore
-}
+    logging: false,
+    native: true // omit this line if using pg-hstore
+  }
 );
 ```
 
@@ -169,43 +169,13 @@ socket.on('connect', function () {
 //             io refers to every socket
 ```
 
-### Quick reference for methods below:
-
-```javascript
-socket.emit('message', "this is a test"); //sending to sender-client only
-
-socket.broadcast.emit('message', "this is a test"); //sending to all clients except sender
-
-socket.broadcast.to('game').emit('message', 'nice game'); //sending to all clients in 'game' room(channel) except sender
-
-socket.to('game').emit('message', 'enjoy the game'); //sending to sender client, only if they are in 'game' room(channel)
-
-socket.broadcast.to(socketid).emit('message', 'for your eyes only'); //sending to individual socketid
-
-io.emit('message', "this is a test"); //sending to all clients, include sender
-
-io.in('game').emit('message', 'cool game'); //sending to all clients in 'game' room(channel), include sender
-
-io.of('myNamespace').emit('message', 'gg'); //sending to all clients in namespace 'myNamespace', include sender
-
-socket.emit(); //send to all connected clients
-
-socket.broadcast.emit(); //send to all connected clients except the one that sent the message
-
-socket.on(); //event listener, can be called on client to execute on server
-
-io.sockets.socket(); //for emitting to specific clients
-io.sockets.emit(); //send to all connected clients (same as socket.emit)
-io.sockets.on() ; //initial connection from a client.
-```
-
 ## React
 
 ### Tom’s Super Important Laws
 
-State must ALWAYS be initialized with the appropriate data type.
-Dumb components should be as dumb as possible, they should only calculate the view and nothing more.
-All asynchronous behavior (such as AJAX) and side effects should go into a thunk.
+1. State must ALWAYS be initialized with the appropriate data type.
+2. Dumb components should be as dumb as possible, they should only calculate the view and nothing more.
+3. All asynchronous behavior (such as AJAX) and side effects should go into a thunk.
 
 ### NPM Packages
 
@@ -221,7 +191,7 @@ import { HashRouter as Router, Route, Link } from 'react-router-dom';
 ### Creating a Smart Component and Using React Router
 
 ```javascript
-export default class ViewPets extends React.Component {
+export default class Component extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -240,63 +210,7 @@ export default class ViewPets extends React.Component {
   componentDidMount() {
     this.setState({ view: this.props.match.params.view })
   }
-
-  render() {
-    let animals = catsData.concat(dogsData);
-    if(this.state.view === 'cats' {
-      animals = catsData;
-    }
-
-    return (
-      <div>
-        <h1>Pets</h1>
-        <AnimalList animals={animals} />
-      </div>
-    )
-  }
 }
-```
-
-### Creating a Dumb Component
-
-```javascript
-const AnimalList = ({ animals }) => {
-  return (
-    <div className="gallery">
-      { animals.map(animal => {
-        return <AnimalCard key={animal.id} animal={animal} />;
-      })}
-    </div>
-  )
-}
-```
-
-### Component Lifecycle Methods
-
-```javascript
-/* Mounting */
-constructor(props) {} // Called before a component is mounted.
-
-componentWillMount() {} // Called immediately before mounting occurs.
-
-render() {} // Renders using returned JSX
-
-componentDidMount() {} // Called immediately after mounting.
-
-/* Updating */
-componentWillReceiveProps(nextProps) {} // Invoked before a mounted component gets new props.
-
-shouldComponentUpdate(nextProps, nextState) {} // Invoked before rendering when new props or state are received.
-
-componentWillUpdate(nextProps, nextState) {} // Invoked immediately before rendering after new props are received.
-
-componentDidUpdate(prevProps, prevState) {} // Invoked immediately after updating occurs, but not called on initial render.
-
-/* Unmounting */
-componentWillUnmount() {} // Invoked immediately before a component is unmounted or destroyed.
-
-/* Error Handling */
-componentDidCatch(error, info) {} // Catches errors anywhere in child component tree.
 ```
 
 ### Using React Router
@@ -306,19 +220,13 @@ componentDidCatch(error, info) {} // Catches errors anywhere in child component 
 render() {
   return (
     <Router>
-      <div className="col-xs-10">
-        <Route exact path="/" component={AllAlbums} />
-        <Route path="/albums" component={AllAlbums} />
+      <div>
+        <Route exact path="/" component={Component} />
+        <Route path="/path" component={Component} />
       </div>
     </Router>
   );
 }
-```
-
-### Moar Code
-
-```javascript
-
 ```
 
 ## Redux
@@ -330,7 +238,7 @@ render() {
 ### Dependencies
 
 ```javascript
-// In store.js
+// in store.js or wherever store is defined
 import { createStore } from 'redux';
 ```
 
@@ -338,23 +246,23 @@ import { createStore } from 'redux';
 
 ```javascript
 const initialState = {
-  counter: 0,
+  value: [], // always initialize state with correct value type
 };
 ```
 
 ### Define Action Types
 
 ```javascript
-const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
+const ACTION_TYPE = 'ACTION_TYPE';
 ```
 
 ### Define Action Creator
 
 ```javascript
-export function incrementCounter(interval) {
+export function actionCreator(value) {
   return {
-    type: INCREMENT_COUNTER,
-    interval
+    type: ACTION_TYPE,
+    value
   }
 }
 ```
@@ -362,11 +270,11 @@ export function incrementCounter(interval) {
 ### Define Reducer
 
 ```javascript
-function reducer(prevState=initialState, action) {
+function reducer(prevState = initialState, action) {
   switch(action.type) {
-    case INCREMENT_COUNTER:
-      let newState = Object.assign({}, prevState);
-      newState.counter += action.interval;
+    case ACTION_TYPE:
+      let newState = Object.assign({}, prevState); // shallow copy
+      newState.value = action.value;
       return newState;
     default:
       return prevState;
@@ -420,7 +328,36 @@ import { connect } from 'react-redux';
 ### Setup (connected component)
 
 ```javascript
-/* code here */
+// map current state to props
+const mapStateToProps = state => {
+  return {
+    name: state.name
+  };
+};
+
+// map change/submit handlers (dispatches) to props
+const mapDispatchToProps = dispatch => {
+  return {
+    handleChange(event) {
+      dispatch(updateName(event.target.value));
+    }
+  };
+};
+
+// access state and dispatch methods via props
+const Component = props => {
+  const handleChange = props.handleChange;
+  const state = props.state;
+
+  return (
+    <div>
+    </div>
+  );
+};
+
+// export connected version of component
+const Container = connect(mapStateToProps, mapDispatchToProps)(NameEntry);
+export default Container;
 ```
 
 ## Webpack
@@ -482,7 +419,7 @@ module.exports = {
 };
 ```
 
-## Thunk
+## React-Thunk
 
 ### NPM Packages
 
@@ -522,4 +459,3 @@ export function postMessage (message) {
     }
 }
 ```
-
