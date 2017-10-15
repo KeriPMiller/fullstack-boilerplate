@@ -1,5 +1,7 @@
 # Model Example
 
+Thanks, @bizdevchristian!
+
 ```javascript
 
 const IncredibleHulk = db.define('IncredibleHulk', {
