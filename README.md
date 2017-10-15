@@ -1,4 +1,4 @@
-# Fullstack Junior-Phase Boilerplate TEST
+# Fullstack Junior-Phase Boilerplate
 
 - [Overview](#overview)
   - [What is this?](#what-this-is)
