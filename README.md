@@ -1,4 +1,4 @@
-# Fullstack Junior-Phase Boilerplate
+# Fullstack Junior-Phase Boilerplate TEST
 
 - [Overview](#overview)
   - [What is this?](#what-this-is)
@@ -124,6 +124,9 @@ const db = new Sequelize('postgres://localhost:5432/DB-NAME-HERE', {
   }
 );
 ```
+
+### Examples
+- [Model example](/examples/sequelize/model.md)
 
 ## Socket.IO
 
