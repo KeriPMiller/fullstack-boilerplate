@@ -45,7 +45,7 @@ IncredibleHulk.ArmyOfHulks = function () {
 
 //instance method examples
 IncredibleHulk.prototype.addChild = function (nameObject) {
-  sexyTimeWithBettyRoss();
+  chillWithBettyRoss();
   setTimeout(function(){
     alert("Hey bay-bay, hey bay-bay, hey");
     return IncredibleHulk.create({
