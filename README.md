@@ -13,7 +13,7 @@
 - [Redux](#redux)
 - [React-Redux](#react-redux)
 - [Webpack](#webpack)
-- [React-Thunk](#react-thunk)
+- [Redux-Thunk](#redux-thunk)
 
 ## OVERVIEW
 
@@ -422,7 +422,7 @@ module.exports = {
 };
 ```
 
-## React-Thunk
+## Redux-Thunk
 
 ### NPM Packages
 
